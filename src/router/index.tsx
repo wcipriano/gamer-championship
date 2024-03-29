@@ -6,8 +6,8 @@ import { Home } from "../screens/home";
 import { Usuario } from "../screens/cadastro/usuario";
 
 export type RootTabPramList = {
-  Home: undefined;
-  Usuario: {id:string};
+  Home: undefined
+  Usuario: {id:string}
 }
 const Tab = createBottomTabNavigator<RootTabPramList>();
 
@@ -15,8 +15,8 @@ const MyTheme = {
   ...DefaultTheme, 
   colors: {
     ...DefaultTheme.colors,
-     primary: 'blue',
-      backgroud: 'white'
+    primary: 'blue',
+    backgroud: 'white'
   }
 }
 
@@ -41,7 +41,7 @@ export const Routes = () => {
           component={Usuario} 
           options={
             {
-              title: 'Cadastro de usuários',
+              title: 'Cadastro',
               tabBarIcon: ({ color }) => (
                 <MaterialCommunityIcons name="account-multiple-plus" color={color} size={26} />
               ),
