@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-
+ 
 import { styles } from './styles';
-
+ 
 export type CardProps = {
     id: any;
     nome: string;
@@ -15,15 +15,14 @@ type Props = {
   data: CardProps;
   onPress: () => void;
 }
-
+ 
 export function Card({ data, onPress }: Props) {
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);
-//console.log(data.nome)
-  
+ 
   function togglePasswordIsVisible() {
     setPasswordIsVisible(prevState => !prevState);
   }
-
+ 
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={togglePasswordIsVisible}>
@@ -33,7 +32,7 @@ export function Card({ data, onPress }: Props) {
           color="#888D97"
         />
       </TouchableOpacity>
-
+ 
       <View style={styles.content}>
         <View>
           <Text style={styles.nome}>
@@ -42,7 +41,7 @@ export function Card({ data, onPress }: Props) {
           <Text style={styles.email}>
             {data.email}
           </Text>
-
+ 
           {
             passwordIsVisible
               ?
@@ -51,12 +50,12 @@ export function Card({ data, onPress }: Props) {
               </Text>
               :
               <Text style={styles.user}>
-                {data.confirmaSenha}
+                {'********'}
               </Text>
           }
         </View>
       </View>
-
+ 
       <TouchableOpacity
         style={styles.button}
         onPress={onPress}

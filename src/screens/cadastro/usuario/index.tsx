@@ -1,5 +1,5 @@
-import React from 'react';
-import { VStack, Heading, Center} from 'native-base';
+import React, { useEffect, useState } from 'react';
+import { VStack, Heading, Center, HStack, Modal } from 'native-base';
 import { Controller, useForm } from 'react-hook-form';
 import { Input } from '../../../components/input/Input';
 import { Button } from '../../../components/button/Button';
@@ -9,6 +9,10 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import uuid from 'react-native-uuid';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-tiny-toast';
+import { BottomTabBarButtonProps, BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { RootTabPramList } from '../../../router';
+import { ActivityIndicator } from 'react-native';
+import { ExcluirItemDialog } from '../../../components/dialog';
 
 
 type FormDataProps = {
@@ -29,80 +33,211 @@ const SchemaRegister = yup.object({
     // .oneOf([yup.ref('senha')], 'Confirmação de senha inválida')
 })
 
-export const Usuario = () => {
-  const {control, handleSubmit, formState:{errors}} = useForm<FormDataProps>( {
+type UsuarioROuterProp = BottomTabScreenProps<RootTabPramList, 'Usuario'>;
+
+export const Usuario = ({route, navigation}: UsuarioROuterProp) => {
+  const {control, handleSubmit, reset, setValue, formState:{errors}} = useForm<FormDataProps>( {
     resolver: yupResolver(SchemaRegister) as any
   });
+
+  const [loading, setLoading] = useState(true);
+  const [searchId, setSearchId] = useState(true);
+  const [showDeleDialog, setShowDeleDialog] = useState(false);
+  const isEditing = !!route?.params?.id;
+
+  // useEffect: Load data before render screen
+  useEffect(() => {
+    if(isEditing) {
+      handleSearch(route.params.id);
+      setSearchId(true);
+    } else {
+      setSearchId(false);
+      reset();
+      setLoading(false);
+    }
+    return() => setLoading(true);
+  }, [route, isEditing]);
+
+  useEffect(() => {
+    if (route?.params?.id) handleSearch(route?.params?.id);
+    else {
+      reset();
+      setLoading(false);
+    }
+    return () => setLoading(true);
+  }, [route]);
+
+
+
+  function handleList() {
+    navigation.navigate('Home');
+  }
 
   async function handleRegister(data:FormDataProps) {
     data.id = uuid.v4();
     console.log(data);
     try {
-      //@TODO: Read data from Storage, add new record, and then save
-      const responseData = await AsyncStorage.setItem('@formHook:cadastro', JSON.stringify(data));
-      console.log(JSON.stringify(responseData));
+      //Get data from db
+      // const response = await AsyncStorage.removeItem('@formHook:cadastro');
+      const response = await AsyncStorage.getItem('@formHook:cadastro');
+      const dbData = response ? JSON.parse(response) : [];
+      //Save new reccord to db
+      const newData = [...dbData, data];
+      await AsyncStorage.setItem('@formHook:cadastro', JSON.stringify(newData));
+      Toast.showSuccess('Cadastro realizado com sucesso');
+      //Clear form
+      reset();
+      // Navegate do home (user list)
+      handleList();
     } catch (err) {
       console.log(err);
     }
-    Toast.showSuccess('Cadastro realizado com sucesso');
   }
 
-  return (
-    <KeyboardAwareScrollView>
-      <VStack bgColor="gray.300" flex={1} p={3}>
-        <Center>
-          <Heading my={10}>Cadastro de usuario</Heading>
-          <Controller
-            control={control}
-            name="nome"
-            render={({field: {onChange}}) => (
-              <Input
-                placeholder='Informe o nome'
+  async function handleChangeRegister(data:FormDataProps) {
+    try {
+      setLoading(true);
+      const response = await AsyncStorage.getItem('@formHook:cadastro');
+      const dbData: FormDataProps[] = response ? JSON.parse(response) : [];
+      const dbDataNw = dbData.filter(obj => obj.id !== data.id);
+      const dbDataNew = [...dbDataNw, data];
+      await AsyncStorage.setItem('@formHook:cadastro', JSON.stringify(dbDataNew));
+      Toast.showSuccess('Cadastro alterado com sucesso');
+      setLoading(false);
+      setSearchId(false);
+      reset();
+      handleList();
+    } catch (err) {
+      setLoading(false);
+      console.log('Erro ao alterar registro', err);
+    }
+  }
+
+  async function handleDelete(data:FormDataProps) {
+    try {
+      setLoading(true);
+      const response = await AsyncStorage.getItem('@formHook:cadastro');
+      const dbData: FormDataProps[] = response ? JSON.parse(response) : [];
+      const dbDataNew = dbData.filter(obj => obj.id !== data.id);
+      await AsyncStorage.setItem('@formHook:cadastro', JSON.stringify(dbDataNew));
+      Toast.showSuccess('Registro excluído com sucesso');
+      setShowDeleDialog(false);
+      setSearchId(false);
+      reset();
+      handleList();
+    } catch(err) {
+      console.log('Erro ao excluir registro', err);
+    }
+  }
+
+  async function handleSearch(id:string) {
+    try {
+      setLoading(true);
+      const response = await AsyncStorage.getItem('@formHook:cadastro');
+      const dbData: FormDataProps[] = response ? JSON.parse(response) : [];
+      const item = dbData?.find(item => item.id === id);
+      if(item){
+        Object.keys(item).forEach((key => 
+          setValue(key as keyof FormDataProps, item?.[key as keyof FormDataProps] as string) ));
+        setLoading(false);
+      } else {
+        console.log('Registro não encontrado');
+      }
+    } catch (err) {
+      console.log('Erro ao buscar registro', err);
+    }
+  }
+
+  if(loading) {
+    return <ActivityIndicator size='large' color='#0000DD' />
+  } else {
+    return (
+      <KeyboardAwareScrollView>
+        <VStack bgColor="gray.300" flex={1} p={3}>
+          <Center>
+            <Heading my={10}>Cadastro de usuario</Heading>
+            <Controller
+              control={control}
+              name="nome"
+              defaultValue=''
+              render={({field: {onChange, value}}) => (
+                <Input
+                  placeholder='Informe o nome'
+                    onChangeText={onChange}
+                    errorMessage={errors.nome?.message}
+                    value={value}
+                ></Input>
+              )}
+            />
+            <Controller
+              control={control}
+              name="email"
+              defaultValue=''
+              render={({field: {onChange, value}}) => (
+                <Input
+                  placeholder='Informe o email'
                   onChangeText={onChange}
-                  errorMessage={errors.nome?.message}
-              ></Input>
-            )}
-          />
-          <Controller
-            control={control}
-            name="email"
-            render={({field: {onChange}}) => (
-              <Input
-                placeholder='Informe o email'
-                onChangeText={onChange}
-                errorMessage={errors.email?.message}
-              ></Input>
-            )}
-          />
-          <Controller
-            control={control}
-            name="senha"
-            render={({field: {onChange}}) => (
-              <Input
-                placeholder='Informe a senha'
-                onChangeText={onChange}
-                secureTextEntry
-                errorMessage={errors.senha?.message}
-              ></Input>
-            )}
-          />
-          <Controller
-            control={control}
-            name="confirmaSenha"
-            render={({field: {onChange}}) => (
-              <Input
-                placeholder='Confirme sua senha'
-                onChangeText={onChange}
-                secureTextEntry
-                errorMessage={errors.confirmaSenha?.message}
-              ></Input>
-            )}
-          />
+                  errorMessage={errors.email?.message}
+                  value={value}
+                ></Input>
+              )}
+            />
+            <Controller
+              control={control}
+              name="senha"
+              defaultValue=''
+              render={({field: {onChange, value}}) => (
+                <Input
+                  placeholder='Informe a senha'
+                  onChangeText={onChange}
+                  secureTextEntry
+                  errorMessage={errors.senha?.message}
+                  value={value}
+                ></Input>
+              )}
+            />
+            <Controller
+              control={control}
+              name="confirmaSenha"
+              defaultValue=''
+              render={({field: {onChange, value}}) => (
+                <Input
+                  placeholder='Confirme sua senha'
+                  onChangeText={onChange}
+                  secureTextEntry
+                  errorMessage={errors.confirmaSenha?.message}
+                  value={value}
+                ></Input>
+              )}
+            />
 
-          <Button title='Cadastrar' onPress={handleSubmit(handleRegister)}></Button>
+            {
+              searchId ? (
+                <VStack>
+                  <HStack>
+                    <Button rounded="md" shadow={3} title='Alterar' color='#F48820' onPress={handleSubmit(handleChangeRegister)} />
+                  </HStack>
+                  <HStack padding={5}>
+                    <Button rounded="md" shadow={3} title='Excluir' color='#CC0707' onPress={()=> setShowDeleDialog(true)} />
+                  </HStack>
+                </VStack>
+              ) : (
+                <Button title='Cadastrar' onPress={handleSubmit(handleRegister)}></Button>
+              )
+            }
+            
+          </Center>
+        </VStack>
 
-        </Center>
-      </VStack>
-    </KeyboardAwareScrollView>
-  );
+        <Modal isOpen={showDeleDialog} onClose={() => setShowDeleDialog(false)}>
+          <ExcluirItemDialog 
+            isVisible={showDeleDialog} 
+            onCancel={() => setShowDeleDialog(false)}
+            onConfirm={handleSubmit(handleDelete)}
+          />
+        </Modal>
+
+      </KeyboardAwareScrollView>
+    );
+  }
 }
