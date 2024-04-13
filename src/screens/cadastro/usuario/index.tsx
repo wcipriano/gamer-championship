@@ -152,7 +152,7 @@ export const Usuario = ({route, navigation}: UsuarioROuterProp) => {
       <KeyboardAwareScrollView>
         <VStack bgColor="gray.300" flex={1} p={3}>
           <Center>
-            <Heading my={10}>Cadastro de usuario</Heading>
+            <Heading my={5}>Cadastro de usuario</Heading>
             <Controller
               control={control}
               name="nome"
@@ -214,7 +214,7 @@ export const Usuario = ({route, navigation}: UsuarioROuterProp) => {
                   <HStack>
                     <Button rounded="md" shadow={3} title='Alterar' color='#F48820' onPress={handleSubmit(handleChangeRegister)} />
                   </HStack>
-                  <HStack paddingTop={5}>
+                  <HStack paddingTop={3}>
                     <Button rounded="md" shadow={3} title='Excluir' color='#CC0707' onPress={()=> setShowDeleDialog(true)} />
                   </HStack>
                 </VStack>

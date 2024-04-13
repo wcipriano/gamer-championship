@@ -1,9 +1,12 @@
 import React, { useCallback, useState } from 'react';
-import { View, FlatList } from 'react-native';
-import { styles } from './styles';
+import { ListRenderItem } from 'react-native';
+import { Container, UserList, Header } from './styles';
 import { Card, CardProps } from '../../components/card';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
+import coverImg from '../../../assets/cover.webp';
+import { Input } from '../../components/input/Input';
+
 
 type Props = {
   navigation: any;
@@ -32,20 +35,22 @@ export const Home = ({navigation}:Props) => {
     }
   }
 
+  const renderItem: ListRenderItem<CardProps> = ({item}) => 
+    <Card 
+      data={item}
+      onPress={() => handleEdit(item.id)}
+    />;
+
   return (
-    <View style={styles.Container}>
-      <FlatList
-        data={data}
-        keyExtractor={item => item.id}
-        style={styles.list}
-        contentContainerStyle={styles.listContent}
-        renderItem={({item}) => 
-          <Card 
-            data={item}
-            onPress={() => handleEdit(item.id)}
-          />
-        }
-      />
-    </View>
+      <Container>
+        <Header source={coverImg}>
+          <Input height={10} mb={1} placeholder="Pesquisar..." />
+        </Header>
+        <UserList
+          data={data}
+          keyExtractor={(item: CardProps) => item.id}
+          renderItem={renderItem}
+        />
+    </Container>
   );
 }

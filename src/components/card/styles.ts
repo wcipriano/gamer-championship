@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    height: 80,
+    height: 70,
     width: '100%',
     backgroundColor: '#fff',
     flexDirection: 'row',
@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     paddingLeft: 22,
     marginBottom: 8,
-    borderRadius: 4
+    borderRadius: 10
   },
   content: {
     flex: 1,

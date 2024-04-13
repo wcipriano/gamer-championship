@@ -1,23 +1,26 @@
-import { Input as NativeBaseInput, IInputProps, FormControl } from "native-base";
+import { Input as NativeBaseInput, IInputProps, FormControl, Center } from "native-base";
+import { MaterialIcons } from '@expo/vector-icons';
 
 type InputProps = IInputProps &{
     errorMessage?: string | null
 }
-export function  Input({errorMessage = null, isInvalid,  ...res}: InputProps ){
+
+export function  Input({errorMessage = null, isInvalid, height=16, mb=3, bgColor="gray.100", ...res}: InputProps ){
     const invalid = !!errorMessage || isInvalid;
     return(
-        <FormControl mb={4} isInvalid={invalid}>
+        <FormControl mb={mb} isInvalid={invalid}>
             <NativeBaseInput
-                bgColor={"gray.100"}
+                bgColor={bgColor}
                 fontSize="md"
-                h={20}
-                mb={4}
+                h={height}
+                px={3}
+                mb={mb}
                 placeholderTextColor={"gray.500"}
                 isInvalid={invalid}
                 _focus={{
                     bg: "gray.100",
                     borderWidth: "2px",
-                    borderColor: "green.500"
+                    borderColor: "gray.500"
                 }}    
                 _invalid={{
                     borderWidth: "2px",
