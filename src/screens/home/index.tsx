@@ -25,7 +25,7 @@ export const Home = ({navigation}:Props) => {
     try{
       const response = await AsyncStorage.getItem('@formHook:cadastro');
       const data = response ? JSON.parse(response) : [];
-      console.log(data);
+      console.log('Registros armazenados: ', data);
       setData(data);
     } catch (err) {
       console.log('Erro ao carregar registros: ', err);

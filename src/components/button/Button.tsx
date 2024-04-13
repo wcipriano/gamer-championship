@@ -15,8 +15,7 @@ export function Button({title, color = "green.700", ...res}: Props){
             }}
             {...res}
         >
-        <Text color= "white" fontSize={26}>{title}</Text>
-
+            <Text color= "white" fontSize={26}>{title}</Text>
         </ButtonNativeBase>
     )
 }

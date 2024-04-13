@@ -5,11 +5,11 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Home } from "../screens/home";
 import { Usuario } from "../screens/cadastro/usuario";
 
-export type RootTabPramList = {
+export type RootTabParamList = {
   Home: undefined
   Usuario: {id:string}
 }
-const Tab = createBottomTabNavigator<RootTabPramList>();
+const Tab = createBottomTabNavigator<RootTabParamList>();
 
 const MyTheme = {
   ...DefaultTheme, 

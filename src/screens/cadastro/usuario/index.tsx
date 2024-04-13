@@ -9,14 +9,14 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import uuid from 'react-native-uuid';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-tiny-toast';
-import { BottomTabBarButtonProps, BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { RootTabPramList } from '../../../router';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs/lib/typescript/src/types';
+import { RootTabParamList } from '../../../router';
 import { ActivityIndicator } from 'react-native';
 import { ExcluirItemDialog } from '../../../components/dialog';
 
 
 type FormDataProps = {
-  id:any
+  id:string
   nome: string
   email: string
   senha: string
@@ -33,7 +33,7 @@ const SchemaRegister = yup.object({
     // .oneOf([yup.ref('senha')], 'Confirmação de senha inválida')
 })
 
-type UsuarioROuterProp = BottomTabScreenProps<RootTabPramList, 'Usuario'>;
+type UsuarioROuterProp = BottomTabScreenProps<RootTabParamList, 'Usuario'>;
 
 export const Usuario = ({route, navigation}: UsuarioROuterProp) => {
   const {control, handleSubmit, reset, setValue, formState:{errors}} = useForm<FormDataProps>( {
@@ -67,21 +67,19 @@ export const Usuario = ({route, navigation}: UsuarioROuterProp) => {
     return () => setLoading(true);
   }, [route]);
 
-
-
   function handleList() {
     navigation.navigate('Home');
   }
 
   async function handleRegister(data:FormDataProps) {
-    data.id = uuid.v4();
-    console.log(data);
+    data.id = uuid.v4().toString();
+    console.log('Register: ', data);
     try {
       //Get data from db
       // const response = await AsyncStorage.removeItem('@formHook:cadastro');
       const response = await AsyncStorage.getItem('@formHook:cadastro');
       const dbData = response ? JSON.parse(response) : [];
-      //Save new reccord to db
+      //Save new record to db
       const newData = [...dbData, data];
       await AsyncStorage.setItem('@formHook:cadastro', JSON.stringify(newData));
       Toast.showSuccess('Cadastro realizado com sucesso');
@@ -139,13 +137,12 @@ export const Usuario = ({route, navigation}: UsuarioROuterProp) => {
       if(item){
         Object.keys(item).forEach((key => 
           setValue(key as keyof FormDataProps, item?.[key as keyof FormDataProps] as string) ));
-        setLoading(false);
-      } else {
-        console.log('Registro não encontrado');
+        setSearchId(true);
       }
     } catch (err) {
       console.log('Erro ao buscar registro', err);
     }
+    setLoading(false);
   }
 
   if(loading) {
@@ -166,7 +163,7 @@ export const Usuario = ({route, navigation}: UsuarioROuterProp) => {
                     onChangeText={onChange}
                     errorMessage={errors.nome?.message}
                     value={value}
-                ></Input>
+                />
               )}
             />
             <Controller
@@ -179,7 +176,7 @@ export const Usuario = ({route, navigation}: UsuarioROuterProp) => {
                   onChangeText={onChange}
                   errorMessage={errors.email?.message}
                   value={value}
-                ></Input>
+                />
               )}
             />
             <Controller
@@ -193,7 +190,7 @@ export const Usuario = ({route, navigation}: UsuarioROuterProp) => {
                   secureTextEntry
                   errorMessage={errors.senha?.message}
                   value={value}
-                ></Input>
+                />
               )}
             />
             <Controller
@@ -207,7 +204,7 @@ export const Usuario = ({route, navigation}: UsuarioROuterProp) => {
                   secureTextEntry
                   errorMessage={errors.confirmaSenha?.message}
                   value={value}
-                ></Input>
+                />
               )}
             />
 
@@ -217,7 +214,7 @@ export const Usuario = ({route, navigation}: UsuarioROuterProp) => {
                   <HStack>
                     <Button rounded="md" shadow={3} title='Alterar' color='#F48820' onPress={handleSubmit(handleChangeRegister)} />
                   </HStack>
-                  <HStack padding={5}>
+                  <HStack paddingTop={5}>
                     <Button rounded="md" shadow={3} title='Excluir' color='#CC0707' onPress={()=> setShowDeleDialog(true)} />
                   </HStack>
                 </VStack>
@@ -236,7 +233,6 @@ export const Usuario = ({route, navigation}: UsuarioROuterProp) => {
             onConfirm={handleSubmit(handleDelete)}
           />
         </Modal>
-
       </KeyboardAwareScrollView>
     );
   }
