@@ -6,7 +6,7 @@ export const Container = styled.View`
     justify-content: 'center';
 `;
 
-export const UserList = styled.FlatList`
+export const TeamList = styled.FlatList`
     flex: 1;
     width: 100%;
     padding: 10px;

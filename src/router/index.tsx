@@ -3,11 +3,11 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Home } from "../screens/home";
-import { Usuario } from "../screens/cadastro/usuario";
+import { Team } from "../screens/cadastro/team";
 
 export type RootTabParamList = {
   Home: undefined
-  Usuario: {id:string}
+  Team: {id:number}
 }
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
@@ -29,7 +29,7 @@ export const Routes = () => {
           component={Home} 
           options={
             {
-              title: 'Lista de usuários',
+              title: 'Times',
               tabBarIcon: ({ color }) => (
                 <MaterialCommunityIcons name="home" color={color} size={26} />
               ),
@@ -42,8 +42,8 @@ export const Routes = () => {
               navigation.setParams({id: undefined});
             }
           })}
-          name="Usuario"
-          component={Usuario} 
+          name="Team"
+          component={Team} 
           options={
             {
               title: 'Cadastro',

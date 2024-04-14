@@ -1,0 +1,58 @@
+{
+  "teams": [
+    {
+      "conference": "East",
+      "division": "Southeast",
+      "city": "Atlanta",
+      "name": "Hawks",
+      "full_name": "Atlanta Hawks",
+      "abbreviation": "ATL",
+      "id": 1
+    },
+    {
+      "name": "Rockets",
+      "full_name": "Houston Rockets",
+      "abbreviation": "HOU",
+      "city": "Houston",
+      "conference": "West",
+      "division": "Southwest",
+      "id": 2
+    },
+    {
+      "name": "Grizzlies",
+      "full_name": "Memphis Grizzlies Aaaa",
+      "abbreviation": "MEM",
+      "city": "Memphis",
+      "conference": "West",
+      "division": "Southwest",
+      "id": 3
+    },
+    {
+      "conference": "East",
+      "division": "Southeast",
+      "city": "Miami",
+      "name": "Heat",
+      "full_name": "Miami Heat",
+      "abbreviation": "MIA",
+      "id": 4
+    },
+    {
+      "conference": "West",
+      "division": "Northwest",
+      "city": "Denver",
+      "name": "Nuggets",
+      "full_name": "Denver Nuggets",
+      "abbreviation": "DEN",
+      "id": 5
+    },
+    {
+      "id": 6,
+      "name": "Team",
+      "full_name": "City Team AAAA",
+      "abbreviation": "CTA",
+      "city": "City",
+      "conference": "East",
+      "division": "division"
+    }
+  ]
+}

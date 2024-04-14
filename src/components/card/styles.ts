@@ -1,5 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
+const fontMono = Platform.OS === 'ios' ? 'Courier New' : 'monospace';
 export const styles = StyleSheet.create({
   container: {
     height: 70,
@@ -17,13 +18,20 @@ export const styles = StyleSheet.create({
     flex: 1,
     padding: 22,
   },
+  destaque: {
+    fontFamily:  fontMono,
+    fontSize: 20,
+    lineHeight: 22,
+    color: '#3D434D',
+    fontWeight: 'bold',
+  },
   nome: {
     fontSize: 15,
     lineHeight: 18,
     color: '#3D434D',
     fontWeight: 'bold',
   },
-  email: {
+  text: {
     color: '#888D97',
     fontSize: 13,
   },

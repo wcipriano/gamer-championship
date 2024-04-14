@@ -1,11 +1,12 @@
 import React, { useCallback, useState } from 'react';
 import { ListRenderItem } from 'react-native';
-import { Container, UserList, Header } from './styles';
-import { Card, CardProps } from '../../components/card';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Container, TeamList, Header } from './styles';
+import { Card } from '../../components/card';
 import { useFocusEffect } from '@react-navigation/native';
 import coverImg from '../../../assets/cover.webp';
 import { Input } from '../../components/input/Input';
+import { TeamModel } from "../../Model/NbaModel";
+import { TeamController } from '../../Controller/TeamController';
 
 
 type Props = {
@@ -13,10 +14,10 @@ type Props = {
 }
 
 export const Home = ({navigation}:Props) => {
-  const [data, setData] = useState<CardProps[]>([]);
+  const [data, setData] = useState<TeamModel[]>([]);
 
   function handleEdit(id:any) {
-    navigation.navigate('Usuario', {id:id});
+    navigation.navigate('Team', {id:id});
   }
 
   // Load DB data before render screen
@@ -26,16 +27,16 @@ export const Home = ({navigation}:Props) => {
 
   async function handleFetchData() {
     try{
-      const response = await AsyncStorage.getItem('@formHook:cadastro');
-      const data = response ? JSON.parse(response) : [];
-      console.log('Registros armazenados: ', data);
-      setData(data);
-    } catch (err) {
-      console.log('Erro ao carregar registros: ', err);
+      TeamController.get().then((teamList) => {
+        setData(teamList);
+        console.log('data: ', data);
+      })
+    }catch(err){
+      console.log('Erro ao carregar times nba: ', err);
     }
   }
 
-  const renderItem: ListRenderItem<CardProps> = ({item}) => 
+  const renderItem: ListRenderItem<TeamModel> = ({item}) => 
     <Card 
       data={item}
       onPress={() => handleEdit(item.id)}
@@ -44,11 +45,11 @@ export const Home = ({navigation}:Props) => {
   return (
       <Container>
         <Header source={coverImg}>
-          <Input height={10} mb={1} placeholder="Pesquisar..." />
+          <Input height={10} mb={0} placeholder="Pesquisar..." />
         </Header>
-        <UserList
+        <TeamList
           data={data}
-          keyExtractor={(item: CardProps) => item.id}
+          keyExtractor={(item: TeamModel) => item.id}
           renderItem={renderItem}
         />
     </Container>
