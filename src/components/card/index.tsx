@@ -49,7 +49,7 @@ export function Card({ data, onPress }: Props) {
         onPress={onPress}
       >
         <MaterialIcons
-          name="edit"
+          name="edit-square"
           size={22}
           color="#888D97"
         />
