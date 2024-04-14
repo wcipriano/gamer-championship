@@ -5,7 +5,7 @@ type InputProps = IInputProps &{
     errorMessage?: string | null
 }
 
-export function  Input({errorMessage = null, isInvalid, height=16, mb=3, bgColor="gray.100", ...res}: InputProps ){
+export function  Input({errorMessage = null, isInvalid, height=16, mb=2, bgColor="gray.100", ...res}: InputProps ){
     const invalid = !!errorMessage || isInvalid;
     return(
         <FormControl mb={mb} isInvalid={invalid}>

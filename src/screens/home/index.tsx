@@ -25,15 +25,20 @@ export const Home = ({navigation}:Props) => {
     handleFetchData();
   }, [])); 
 
-  async function handleFetchData() {
+  async function handleFetchData(searchText:string="") {
     try{
-      TeamController.get().then((teamList) => {
+      TeamController.get('/teams', searchText).then((teamList) => {
         setData(teamList);
         console.log('data: ', data);
       })
     }catch(err){
       console.log('Erro ao carregar times nba: ', err);
     }
+  }
+
+  async function handleSearch(text:string):Promise<void> {
+    console.log(text, ': ', text.length);
+    await handleFetchData(text);
   }
 
   const renderItem: ListRenderItem<TeamModel> = ({item}) => 
@@ -45,7 +50,9 @@ export const Home = ({navigation}:Props) => {
   return (
       <Container>
         <Header source={coverImg}>
-          <Input height={10} mb={0} placeholder="Pesquisar..." />
+          <Input height={10} mb={0.5} placeholder="Pesquisar..." 
+                 onChangeText={(text) => handleSearch(text)}
+          />
         </Header>
         <TeamList
           data={data}

@@ -171,7 +171,7 @@ export const Team = ({route, navigation}: TeamRouterProp) => {
   } else {
     return (
       <KeyboardAwareScrollView>
-        <VStack bgColor="gray.300" flex={1} p={3}>
+        <VStack bgColor="gray.300" flex={1} px={3}>
           <Center>
             <Heading my={5}>Cadastro de time</Heading>
             <Controller
@@ -180,7 +180,7 @@ export const Team = ({route, navigation}: TeamRouterProp) => {
               defaultValue=''
               render={({field: {onChange, value}}) => (
                 <Input
-                  placeholder='Informe o nome do time'
+                  placeholder='Informe nome do time'
                     onChangeText={onChange}
                     errorMessage={errors.name?.message}
                     value={value}
@@ -193,7 +193,7 @@ export const Team = ({route, navigation}: TeamRouterProp) => {
               defaultValue=''
               render={({field: {onChange, value}}) => (
                 <Input
-                  placeholder='Informe o nome completo'
+                  placeholder='Informe nome completo'
                   onChangeText={onChange}
                   errorMessage={errors.fullName?.message}
                   value={value}
@@ -206,7 +206,7 @@ export const Team = ({route, navigation}: TeamRouterProp) => {
               defaultValue=''
               render={({field: {onChange, value}}) => (
                 <Input
-                  placeholder='Informe a abreviação do nome'
+                  placeholder='Informe abreviação'
                   onChangeText={onChange}
                   errorMessage={errors.abbreviation?.message}
                   value={value}
@@ -219,7 +219,7 @@ export const Team = ({route, navigation}: TeamRouterProp) => {
               defaultValue=''
               render={({field: {onChange, value}}) => (
                 <Input
-                  placeholder='informe a cidade'
+                  placeholder='Informe cidade'
                   onChangeText={onChange}
                   errorMessage={errors.city?.message}
                   value={value}
@@ -232,7 +232,7 @@ export const Team = ({route, navigation}: TeamRouterProp) => {
               defaultValue=''
               render={({field: {onChange, value}}) => (
                 <Input
-                  placeholder='informe a conferencia'
+                  placeholder='Informe conferencia'
                   onChangeText={onChange}
                   errorMessage={errors.conference?.message}
                   value={value}
@@ -245,7 +245,7 @@ export const Team = ({route, navigation}: TeamRouterProp) => {
               defaultValue=''
               render={({field: {onChange, value}}) => (
                 <Input
-                  placeholder='informe a divisão'
+                  placeholder='Informe divisão'
                   onChangeText={onChange}
                   errorMessage={errors.division?.message}
                   value={value}
