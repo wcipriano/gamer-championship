@@ -255,16 +255,15 @@ export const Team = ({route, navigation}: TeamRouterProp) => {
 
             {
               searchId ? (
-                <VStack>
-                  <HStack>
-                    <Button rounded="md" shadow={3} title='Alterar' color='#F48820' onPress={handleSubmit(handleChangeRegister)} />
-                  </HStack>
-                  <HStack paddingTop={3}>
-                    <Button rounded="md" shadow={3} title='Excluir' color='#CC0707' onPress={()=> setShowDeleDialog(true)} />
-                  </HStack>
+                <VStack style={{ flexDirection:"row" }}>
+                    <Button width='48%' shadow={3} title='Alterar' color='#F48820' onPress={handleSubmit(handleChangeRegister)} />
+                    <Button width='48%' style={{ marginLeft:10 }} shadow={3} title='Excluir' color='#CC0707' onPress={()=> setShowDeleDialog(true)} />
                 </VStack>
               ) : (
-                <Button title='Cadastrar' onPress={handleSubmit(handleRegister)}></Button>
+                <VStack style={{ flexDirection:"row" }}>
+                    <Button width='48%' title='Cadastrar' onPress={handleSubmit(handleRegister)}></Button>
+                    <Button width='48%' style={{ marginLeft:10 }} title='Cancelar' color='#999' onPress={handleList}></Button>
+                </VStack>
               )
             }
             
