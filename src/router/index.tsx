@@ -31,7 +31,7 @@ export const Routes = () => {
             {
               title: 'Times',
               tabBarIcon: ({ color }) => (
-                <MaterialCommunityIcons name="home" color={color} size={26} />
+                <MaterialCommunityIcons name="basketball" color={color} size={26} />
               ),
             }
           }
@@ -48,7 +48,7 @@ export const Routes = () => {
             {
               title: 'Cadastro',
               tabBarIcon: ({ color }) => (
-                <MaterialCommunityIcons name="account-multiple-plus" color={color} size={26} />
+                <MaterialCommunityIcons name="plus-box" color={color} size={26} />
               ),
             }
           }
