@@ -30,7 +30,7 @@ export const Home = ({navigation}:Props) => {
     try{
       TeamController.get('/teams', searchText).then((teamList) => {
         setData(teamList);
-        console.log('data: ', data);
+        console.log('handleFetchData: ', teamList.length);
       })
     }catch(err){
       console.log('Erro ao carregar times nba: ', err);
@@ -38,7 +38,6 @@ export const Home = ({navigation}:Props) => {
   }
 
   async function handleSearch(text:string):Promise<void> {
-    console.log(text, ': ', text.length);
     await handleFetchData(text);
   }
 

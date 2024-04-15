@@ -62,27 +62,15 @@ export const Team = ({route, navigation}: TeamRouterProp) => {
     return() => setLoading(true);
   }, [route, isEditing]);
 
-  useEffect(() => {
-    if (route?.params?.id) handleSearch(route?.params?.id);
-    else {
-      reset();
-      setLoading(false);
-    }
-    return () => setLoading(true);
-  }, [route]);
-
   function handleList() {
     navigation.navigate('Home');
   }
 
   async function handleRegister(data:TeamModel) {
-    console.log('Register data: ', data);
     try {
       TeamController.post('/teams', data)
         .then((response) => {
-          console.log('Registro Response: ', response);
           if(response)  {
-            console.log('Registro adicionado com suceso, ID: ', response.id);
             Toast.showSuccess(`Registro inserido: ${response.id}`);
             //Clear form
             reset();
@@ -99,13 +87,10 @@ export const Team = ({route, navigation}: TeamRouterProp) => {
   }
   
   async function handleChangeRegister(data:TeamModel) {
-    console.log('ChangeRegister data: ', data);
     try {
       TeamController.put('/teams', data)
         .then((response) => {
-          console.log('Registro Response: ', response);
           if(response)  {
-            console.log('Registro alterado com suceso, ID: ', response.id);
             Toast.showSuccess(`Registro atualizado: ${response.id}`);
             setLoading(false);
             setSearchId(false);
@@ -122,13 +107,10 @@ export const Team = ({route, navigation}: TeamRouterProp) => {
   }
 
   async function handleDelete(data:TeamModel) {
-    console.log('handleDelete data: ', data);
     try {
       TeamController.delete('/teams', data.id)
         .then((response) => {
-          console.log('Registro Response: ', response);
           if(response)  {            
-            console.log('Registro excluido com suceso, ID: ', data.id);
             Toast.showSuccess('Registro excluído com sucesso');
             setShowDeleDialog(false);
             setSearchId(false);
@@ -148,15 +130,13 @@ export const Team = ({route, navigation}: TeamRouterProp) => {
       setLoading(true);
       TeamController.getById('/teams', id)
         .then((response) => {
-          console.log('Registro Response: ', response);
           if(response)  {            
-            console.log('Registro recuperado com suceso: ', response.fullName);
             Object.keys(response).forEach((key => 
               setValue(key as keyof TeamModel, response?.[key as keyof TeamModel] as string) ));
             setSearchId(true);
             setLoading(false);
           } else {
-            console.log('Registro não encontrado: ', response);
+            console.log('Erro Registro não encontrado: ', response);
           }
         });
     } catch (err) {

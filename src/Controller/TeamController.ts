@@ -6,7 +6,7 @@ export class TeamController {
   // GET -> List
   static async get(url_path:string = '/teams', team_search:string=''):Promise<TeamModel[]> {
     let teamList: TeamModel[] = []; 
-    let url: string = `${api_url}${url_path}?_sort=full_name`
+    let url: string = `${api_url}${url_path}?_sort=id&_order=desc`
     if(team_search)
       url = `${api_url}/teams?_sort=full_name&full_name_like=${team_search}`
     try {
