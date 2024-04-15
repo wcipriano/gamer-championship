@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { ListRenderItem } from 'react-native';
-import { Container, TeamList, Header } from './styles';
+import { View, FlatList , ImageBackground} from 'react-native';
+import { styles } from './styles';
 import { Card } from '../../components/card';
 import { useFocusEffect } from '@react-navigation/native';
 import coverImg from '../../../assets/cover.webp';
@@ -48,17 +49,19 @@ export const Home = ({navigation}:Props) => {
     />;
 
   return (
-      <Container>
-        <Header source={coverImg}>
+      <View style={styles.Container}>
+        <ImageBackground style={styles.header} source={coverImg}>
           <Input height={10} mb={0.5} placeholder="Pesquisar..." 
                  onChangeText={(text) => handleSearch(text)}
           />
-        </Header>
-        <TeamList
-          data={data}
-          keyExtractor={(item: TeamModel) => item.id}
-          renderItem={renderItem}
-        />
-    </Container>
+        </ImageBackground>
+      <FlatList
+        style={styles.list}
+        data={data}
+        keyExtractor={(item: TeamModel) => item.id}
+        contentContainerStyle={styles.listContent}
+        renderItem={renderItem}
+      />
+    </View>
   );
 }

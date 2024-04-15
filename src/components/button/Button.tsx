@@ -4,7 +4,7 @@ type Props = IButtonProps &  {
     title: string;
     color?: string
 }
-export function Button({title, color = "green.700", height=16, width='full', ...res}: Props){
+export function Button({title, color="green.700", height=16, width='full', ...res}: Props){
     return(
         <ButtonNativeBase
             w={width}
