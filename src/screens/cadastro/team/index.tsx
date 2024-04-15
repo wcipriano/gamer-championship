@@ -23,7 +23,7 @@ const SchemaRegister = yup.object({
   fullName: yup.string()
     .required('Nome completo obrigatório')
     .min(8, 'Mínimo 8 digitos')
-    .max(20, 'Máximo 20 digitos'),
+    .max(18, 'Máximo 18 digitos'),
   abbreviation: yup.string()
     .required('Abreviação do nome obrigatória')
     .length(3, 'Abreviação deve ter exatamente 3 caracteres')
