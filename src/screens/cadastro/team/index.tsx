@@ -272,6 +272,7 @@ export const Team = ({route, navigation}: TeamRouterProp) => {
 
         <Modal isOpen={showDeleDialog} onClose={() => setShowDeleDialog(false)}>
           <ExcluirItemDialog 
+            msg='Deseja realmente excluir?'
             isVisible={showDeleDialog} 
             onCancel={() => setShowDeleDialog(false)}
             onConfirm={handleSubmit(handleDelete)}

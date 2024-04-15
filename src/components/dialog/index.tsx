@@ -1,25 +1,24 @@
 import React from 'react';
 import { Button, HStack, Text, VStack } from 'native-base';
+import { styles } from './styles';
 
 interface ExcluirItemDialogProps {
   isVisible: boolean;
   onCancel: () => void;
   onConfirm: () => void;
+  msg: string;
 }
 
-export const ExcluirItemDialog: React.FC<ExcluirItemDialogProps> = ({ isVisible, onCancel, onConfirm }) => {
+export const ExcluirItemDialog: React.FC<ExcluirItemDialogProps> = ({ isVisible, onCancel, onConfirm, msg }) => {
   if (!isVisible) return null;
 
   return (
-    <VStack  bg={'#FAFFF5'} p={7}>
-      <Text fontSize={16}  bold>Deseja realmente excluir este item?</Text>
-      <HStack  space={2} justifyContent="center">
-        <Button  rounded="md" shadow={3} h={100} w={150} bgColor={'#FCA53A'} onPress={onCancel}>Cancelar</Button>
-        <Button  rounded="md" shadow={3} h={100} w={150} bgColor={'#FC3F3A'} onPress={onConfirm}>Confirmar</Button>
-
+    <VStack  style={styles.container}>
+      <Text style={styles.text}>{msg}</Text>
+      <HStack style={styles.content}>
+        <Button style={[styles.button, styles.buttonIgn]} onPress={onCancel}>Cancelar</Button>
+        <Button style={[styles.button, styles.buttonDan]} onPress={onConfirm}>Confirmar</Button>
       </HStack>
-
     </VStack>
   );
 };
-
