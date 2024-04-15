@@ -27,7 +27,6 @@ const SchemaRegister = yup.object({
   abbreviation: yup.string()
     .required('Abreviação do nome obrigatória')
     .length(3, 'Abreviação deve ter exatamente 3 caracteres')
-    // .uppercase('Use somente letras maiúsculas')
     .matches(/^[A-Z\s]+$/, "Use somente letras maiúsculas"), 
   city: yup.string()
     .required('Cidade obrigatória')

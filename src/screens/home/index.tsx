@@ -58,7 +58,7 @@ export const Home = ({navigation}:Props) => {
       <FlatList
         style={styles.list}
         data={data}
-        keyExtractor={(item: TeamModel) => item.id}
+        keyExtractor={(item: TeamModel) => item.id.toString()}
         contentContainerStyle={styles.listContent}
         renderItem={renderItem}
       />
