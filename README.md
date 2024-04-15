@@ -52,7 +52,16 @@ _Aluno_: Wagner Cipriano
 - [react-native-uuid](https://www.npmjs.com/package/react-native-uuid)
 -
 
+## API:
+
+Este trabalho foi desenvolvido utilizando integração com esta api:
+https://replit.com/@wagnercipriano/api-nba
+
+A API está hospedada em um servidor gratuito (replit) e não fica rodando automaticamente, a menos que esteja em uso. De forma que para simular ao vivo esta aplicação, que depende desta api, é necessário entrar nesta api e fazer um fork, opção Fork & Run.
+
+Em seguida, precisa alterar a url da API no caminho /src/Controller/TeamController.ts, `const api_url`.
+
 ## Videos:
 
-- [Apresentação funcionalidades](https://www.youtube.com/@WagnerCipriano)
-- [Apresentação código fonte](https://www.youtube.com/@WagnerCipriano)
+- [Apresentação funcionalidades](https://youtu.be/ltcjADvxBTo)
+- [Apresentação código fonte](https://youtu.be/3Bci0Ijzluc)
